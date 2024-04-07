@@ -1,0 +1,22 @@
+def is_safe(b, r, c, n):
+    for i in range(c):
+        if b[r][i] or b[i][c] or (0 <= r-i < n and 0 <= c-i < n and b[r-i][c-i]) or (0 <= r+i < n and 0 <= c-i < n and b[r+i][c-i]): return 0
+    return 1
+
+def solve(b, c, n):
+    if c >= n: return 1
+    for i in range(n):
+        if is_safe(b, i, c, n):
+            b[i][c] = 1
+            if solve(b, c+1, n): return 1
+            b[i][c] = 0
+    return 0
+
+def print_sol(b): print('\n'.join(' '.join(map(str, r)) for r in b))
+
+def n_queens(n):
+    b = [[0] * n for _ in range(n)]
+    if not solve(b, 0, n): print("No solution"); return
+    print_sol(b)
+
+n_queens(8)
